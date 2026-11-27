@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Award, Star, Quote, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { Award, Star, Quote, ArrowUpRight } from 'lucide-react';
 import { portfolioCases } from '../data/siteContent';
+import { TiltCard3D } from './TiltCard3D';
 
 export const PortfolioSection = () => {
   const [filter, setFilter] = useState('all');
@@ -14,22 +15,22 @@ export const PortfolioSection = () => {
       });
 
   return (
-    <section id="portfolio" style={{ padding: '100px 0', background: 'rgba(10, 15, 27, 0.5)' }}>
+    <section id="portfolio" className="portfolio-section" aria-label="Portfolio & Case Studies">
       <div className="container">
         <div className="section-header">
           <div className="badge">
-            <Award size={14} />
+            <Award size={13} aria-hidden="true" />
             <span>Proven Track Record</span>
           </div>
           <h2>
-            Client Success & <span className="gradient-text">Measurable Results</span>
+            Client Deployments &amp; <span className="accent-text">Measurable Results</span>
           </h2>
           <p>
-            Real outcomes delivered for brands across e-commerce, banking, education, and healthcare.
+            Real outcomes delivered for institutional brands across banking, health systems, e-commerce, and digital ventures.
           </p>
 
-          {/* Filter Pills */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 24 }}>
+          {/* Filter Pills with Token States */}
+          <div style={{ display: 'flex', gap: 10, marginTop: 'var(--space-3)' }} role="tablist" aria-label="Filter Case Studies">
             {[
               { id: 'all', label: 'All Projects' },
               { id: 'analytics', label: 'Analytics & BI' },
@@ -37,18 +38,11 @@ export const PortfolioSection = () => {
             ].map((tab) => (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={filter === tab.id}
                 onClick={() => setFilter(tab.id)}
-                style={{
-                  padding: '8px 18px',
-                  borderRadius: 'var(--radius-full)',
-                  border: filter === tab.id ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                  background: filter === tab.id ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                  color: filter === tab.id ? '#ffffff' : 'var(--text-muted)',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'var(--transition)'
-                }}
+                className={`btn ${filter === tab.id ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ padding: '8px 18px', fontSize: 'var(--font-size-xs)' }}
               >
                 {tab.label}
               </button>
@@ -56,63 +50,67 @@ export const PortfolioSection = () => {
           </div>
         </div>
 
-        {/* Portfolio Cases Grid */}
+        {/* Portfolio Cases Grid with 3D Interactive Tilting */}
         <div className="portfolio-grid">
           {filteredCases.map((item) => (
-            <div key={item.id} className="portfolio-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <span
-                  style={{
-                    fontSize: '0.78rem',
-                    color: 'var(--primary)',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                    letterSpacing: '0.06em'
-                  }}
-                >
-                  {item.category}
-                </span>
-                <div style={{ display: 'flex', gap: 2 }}>
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} fill="#f59e0b" color="#f59e0b" />
-                  ))}
+            <TiltCard3D key={item.id} maxTilt={6} scale={1.02} style={{ borderRadius: 'var(--radius-md)' }}>
+              <div className="portfolio-card" style={{ height: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <span
+                    style={{
+                      fontSize: 'var(--font-size-xs)',
+                      color: 'var(--color-text-secondary)',
+                      textTransform: 'uppercase',
+                      fontWeight: 600,
+                      letterSpacing: '0.06em'
+                    }}
+                  >
+                    {item.category}
+                  </span>
+                  <div style={{ display: 'flex', gap: 2 }}>
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={12} fill="var(--color-text-secondary)" color="var(--color-text-secondary)" aria-hidden="true" />
+                    ))}
+                  </div>
+                </div>
+
+                <h3 style={{ fontSize: 'var(--font-size-lg)', margin: '8px 0 4px', fontWeight: 400 }}>{item.client}</h3>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 12 }}>
+                  Executive Sponsor: {item.lead}
+                </div>
+
+                {/* Highlight Stat */}
+                <div className="portfolio-stat-highlight">
+                  <span>{item.statNumber}</span>
+                </div>
+                <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-tertiary)', marginBottom: 12 }}>
+                  {item.statLabel}
+                </div>
+
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-inverse)', lineHeight: 'var(--font-line-height-base)' }}>
+                  {item.desc}
+                </p>
+
+                {/* Quote */}
+                <div className="quote-box">
+                  <Quote size={14} style={{ color: 'var(--color-text-secondary)', opacity: 0.8, marginBottom: 4 }} aria-hidden="true" />
+                  <p style={{ fontSize: 'var(--font-size-xs)', margin: 0 }}>
+                    &ldquo;{item.quote}&rdquo;
+                  </p>
                 </div>
               </div>
-
-              <h3 style={{ fontSize: '1.4rem', margin: '8px 0 4px' }}>{item.client}</h3>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-subtle)', marginBottom: 12 }}>
-                Executive Sponsor: {item.lead}
-              </div>
-
-              {/* Highlight Stat */}
-              <div className="portfolio-stat-highlight">{item.statNumber}</div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 12 }}>
-                {item.statLabel}
-              </div>
-
-              <p style={{ fontSize: '0.92rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                {item.desc}
-              </p>
-
-              {/* Quote */}
-              <div className="quote-box">
-                <Quote size={16} color="var(--primary)" style={{ opacity: 0.7, marginBottom: 4 }} />
-                <p style={{ fontSize: '0.88rem', margin: 0, fontStyle: 'italic' }}>
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-              </div>
-            </div>
+            </TiltCard3D>
           ))}
         </div>
 
         {/* Audit Callout */}
         <div
           style={{
-            marginTop: 50,
-            padding: 32,
+            marginTop: 'var(--space-6)',
+            padding: 'var(--space-4)',
             borderRadius: 'var(--radius-md)',
-            background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%)',
-            border: '1px solid rgba(56, 189, 248, 0.25)',
+            background: 'var(--color-surface-raised)',
+            border: '1px solid var(--border-medium)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -121,16 +119,16 @@ export const PortfolioSection = () => {
           }}
         >
           <div>
-            <h4 style={{ fontSize: '1.35rem', marginBottom: 4 }}>
-              Want Similar Double-Digit Growth for Your Organization?
+            <h4 style={{ fontSize: 'var(--font-size-lg)', marginBottom: 4, fontWeight: 400 }}>
+              Need Measurable Analytics &amp; Performance Transformation?
             </h4>
-            <p style={{ color: 'var(--text-muted)', margin: 0 }}>
-              Let our senior marketing & data architects audit your existing campaigns and reporting pipelines.
+            <p style={{ color: 'var(--color-text-inverse)', margin: 0, fontSize: 'var(--font-size-sm)' }}>
+              Let our senior data architects audit your existing campaigns and reporting pipelines.
             </p>
           </div>
           <a href="#contact" className="btn btn-primary">
             <span>Book Strategy Session</span>
-            <ArrowUpRight size={16} />
+            <ArrowUpRight size={15} aria-hidden="true" />
           </a>
         </div>
       </div>

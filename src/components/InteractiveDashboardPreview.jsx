@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { BarChart3, TrendingUp, ShieldCheck, Activity, Layers, ArrowUpRight } from 'lucide-react';
+import { BarChart3, TrendingUp, Layers, ArrowUpRight } from 'lucide-react';
+import { TiltCard3D } from './TiltCard3D';
 
 const mockDataSets = {
   healthcare: {
     title: 'Healthcare Prism Claims & Patient Flow',
     subtitle: 'Enterprise Hospital Network & Insurance Settlement BI',
-    badge: 'Power BI & SQL Live Feed',
+    badge: 'Power BI & SQL Telemetry',
     kpis: [
       { label: 'Claim Accuracy', val: '99.4%', delta: '+2.8% vs last mo', isUp: true },
       { label: 'Active Inpatients', val: '42,850', delta: '+14% volume', isUp: true },
@@ -21,9 +22,9 @@ const mockDataSets = {
       { label: 'Jun', height: '99%' }
     ],
     breakdown: [
-      { name: 'Surgery & Oncology', share: '44%', color: '#38bdf8' },
-      { name: 'Cardiology & ICU', share: '32%', color: '#6366f1' },
-      { name: 'Outpatient Diagnostics', share: '24%', color: '#10b981' }
+      { name: 'Surgery & Oncology', share: '44%' },
+      { name: 'Cardiology & ICU', share: '32%' },
+      { name: 'Outpatient Diagnostics', share: '24%' }
     ]
   },
   ecommerce: {
@@ -45,185 +46,179 @@ const mockDataSets = {
       { label: 'Week 6', height: '98%' }
     ],
     breakdown: [
-      { name: 'Direct Website / D2C', share: '52%', color: '#38bdf8' },
-      { name: 'Marketplaces (Amazon/Flipkart)', share: '31%', color: '#f59e0b' },
-      { name: 'Affiliate & Social Commerce', share: '17%', color: '#a855f7' }
+      { name: 'Direct Website / D2C', share: '52%' },
+      { name: 'Marketplaces (Amazon/Flipkart)', share: '31%' },
+      { name: 'Affiliate & Social Commerce', share: '17%' }
     ]
   },
   fintech: {
-    title: 'FinTech UPI & Payment Flow Telemetry',
-    subtitle: 'High-Velocity Transaction Processing & Anomaly Guard',
-    badge: 'Real-time Apache Kafka + Power BI',
+    title: 'FinTech Loan Portfolio & Credit Risk Analytics',
+    subtitle: 'NBFC Underwriting, Default Prediction & Cohort Retention',
+    badge: 'Python ML + Power BI Embed',
     kpis: [
-      { label: 'Daily Volume', val: '1.42M', delta: '+18% Peak Run', isUp: true },
-      { label: 'Gateway Success Rate', val: '99.98%', delta: 'Zero Outages', isUp: true },
-      { label: 'Fraud Detection Risk', val: '< 0.002%', delta: '-80% False Positives', isUp: true },
-      { label: 'Avg Latency', val: '180ms', delta: '-40ms optimized', isUp: true }
+      { label: 'Disbursal Volume', val: '₹62.8 Cr', delta: '+28% quarterly', isUp: true },
+      { label: 'NPA Ratio', val: '0.84%', delta: '-0.38% risk mitigated', isUp: true },
+      { label: 'Approval Turnaround', val: '4.2 Min', delta: 'Instant automated', isUp: true },
+      { label: 'Repeat Borrower Rate', val: '41.6%', delta: '+8.4% retention', isUp: true }
     ],
     bars: [
-      { label: '00:00', height: '40%' },
-      { label: '04:00', height: '25%' },
-      { label: '08:00', height: '75%' },
-      { label: '12:00', height: '98%' },
-      { label: '16:00', height: '92%' },
-      { label: '20:00', height: '85%' }
+      { label: 'Q1', height: '62%' },
+      { label: 'Q2', height: '74%' },
+      { label: 'Q3', height: '88%' },
+      { label: 'Q4', height: '96%' },
+      { label: 'Q5', height: '85%' },
+      { label: 'Q6', height: '100%' }
     ],
     breakdown: [
-      { name: 'Peer to Merchant (P2M)', share: '62%', color: '#10b981' },
-      { name: 'Peer to Peer (P2P)', share: '28%', color: '#38bdf8' },
-      { name: 'Cross-Border & Remittance', share: '10%', color: '#6366f1' }
+      { name: 'MSME Growth Capital', share: '46%' },
+      { name: 'Personal Micro-Credit', share: '26%' },
+      { name: 'Peer to Peer (P2P)', share: '28%' }
     ]
   }
 };
 
 export const InteractiveDashboardPreview = () => {
   const [activeTab, setActiveTab] = useState('healthcare');
-  const current = mockDataSets[activeTab];
+  const currentData = mockDataSets[activeTab];
 
   return (
-    <section id="interactive-bi" className="dashboard-preview-section">
+    <section id="interactive-bi" className="dashboard-preview-section" aria-label="Interactive BI Dashboards">
       <div className="container">
         <div className="section-header">
           <div className="badge">
-            <BarChart3 size={14} />
-            <span>Interactive Business Intelligence</span>
+            <BarChart3 size={13} aria-hidden="true" />
+            <span>Interactive Telemetry</span>
           </div>
           <h2>
-            Experience Our <span className="gradient-text">Interactive Dashboards</span>
+            Live Business Intelligence &amp; <span className="accent-text">Executive Dashboards</span>
           </h2>
           <p>
-            Explore live previews of our custom Power BI and Tableau analytics solutions built for
-            modern enterprises. Click through real-world industry scenarios below:
+            Experience how our real-time Power BI and Tableau dashboards consolidate distributed data streams
+            into clear, actionable strategic roadmaps.
           </p>
         </div>
 
-        {/* Dashboard Shell */}
         <div className="dashboard-container">
           {/* Header Bar */}
           <div className="dashboard-header-bar">
             <div className="dashboard-title-group">
               <div
                 style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: '50%',
-                  background: '#10b981',
-                  boxShadow: '0 0 10px #10b981',
+                  width: 32,
+                  height: 32,
+                  borderRadius: 'var(--radius-xs)',
+                  background: 'var(--color-surface-base)',
+                  border: '1px solid var(--border-medium)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--color-text-secondary)'
                 }}
-              />
+              >
+                <Layers size={16} aria-hidden="true" />
+              </div>
               <div>
-                <h3 style={{ fontSize: '1.05rem', margin: 0 }}>{current.title}</h3>
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>
-                  {current.subtitle}
+                <h3 style={{ fontSize: 'var(--font-size-md)', margin: 0, fontWeight: 500 }}>
+                  {currentData.title}
+                </h3>
+                <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                  {currentData.subtitle} &bull; <strong style={{ color: 'var(--color-text-secondary)' }}>{currentData.badge}</strong>
                 </span>
               </div>
             </div>
 
-            {/* Dashboard Selector Tabs */}
-            <div className="dashboard-tabs">
-              <button
-                className={`dashboard-tab-btn ${activeTab === 'healthcare' ? 'active' : ''}`}
-                onClick={() => setActiveTab('healthcare')}
-              >
-                Healthcare Prism
-              </button>
-              <button
-                className={`dashboard-tab-btn ${activeTab === 'ecommerce' ? 'active' : ''}`}
-                onClick={() => setActiveTab('ecommerce')}
-              >
-                E-Commerce Sales
-              </button>
-              <button
-                className={`dashboard-tab-btn ${activeTab === 'fintech' ? 'active' : ''}`}
-                onClick={() => setActiveTab('fintech')}
-              >
-                FinTech UPI Stream
-              </button>
+            {/* Interactive Dataset Switcher Tabs */}
+            <div className="dashboard-tabs" role="tablist" aria-label="Select Industry Dashboard">
+              {[
+                { id: 'healthcare', label: 'Healthcare BI' },
+                { id: 'ecommerce', label: 'E-Commerce Telemetry' },
+                { id: 'fintech', label: 'FinTech Credit Risk' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  id={`tab-${tab.id}`}
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`panel-${tab.id}`}
+                  className={`dashboard-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Body Content */}
-          <div className="dashboard-body">
-            {/* KPI Cards Row */}
-            <div className="kpi-row">
-              {current.kpis.map((kpi, i) => (
-                <div key={i} className="kpi-card">
-                  <div className="kpi-card-label">{kpi.label}</div>
-                  <div className="kpi-card-val">{kpi.val}</div>
-                  <div className={`kpi-card-delta ${kpi.isUp ? 'delta-up' : 'delta-down'}`}>
-                    <TrendingUp size={14} />
-                    <span>{kpi.delta}</span>
+          {/* Dashboard Body */}
+          <div
+            id={`panel-${activeTab}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${activeTab}`}
+            className="dashboard-body"
+          >
+            {/* KPI Cards Row (Part of List Component 3) */}
+            <div className="kpi-row" role="list" aria-label="Dashboard Metrics">
+              {currentData.kpis.map((kpi, idx) => (
+                <TiltCard3D key={idx} maxTilt={6} scale={1.02} style={{ borderRadius: 'var(--radius-sm)' }}>
+                  <div className="kpi-card" role="listitem" style={{ height: '100%' }}>
+                    <div className="kpi-card-label">{kpi.label}</div>
+                    <div className="kpi-card-val">{kpi.val}</div>
+                    <div className="kpi-card-delta">
+                      <TrendingUp size={12} aria-hidden="true" />
+                      <span>{kpi.delta}</span>
+                    </div>
                   </div>
-                </div>
+                </TiltCard3D>
               ))}
             </div>
 
-            {/* Visual Charts Row */}
+            {/* Charts Row */}
             <div className="charts-row">
-              {/* Main Velocity Bar Chart */}
+              {/* Trend Chart */}
               <div className="chart-box">
                 <div className="chart-box-title">
-                  <span>Performance Trajectory & Volume Velocity</span>
-                  <span
-                    style={{
-                      fontSize: '0.75rem',
-                      padding: '3px 8px',
-                      background: 'rgba(56,189,248,0.1)',
-                      color: 'var(--primary)',
-                      borderRadius: 4,
-                    }}
-                  >
-                    {current.badge}
-                  </span>
+                  <span>Normalized Cohort Velocity (6-Month Trend)</span>
+                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>Automated ETL Synced</span>
                 </div>
-
-                <div className="chart-bars">
-                  {current.bars.map((bar, idx) => (
+                <div className="chart-bars" aria-label="Bar chart showing monthly velocity">
+                  {currentData.bars.map((bar, idx) => (
                     <div key={idx} className="bar-col">
-                      <div className="bar-fill" style={{ height: bar.height }} />
+                      <div
+                        className="bar-fill"
+                        style={{ height: bar.height }}
+                        title={`${bar.label}: ${bar.height}`}
+                      />
                       <span className="bar-label">{bar.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Segment Breakdown */}
+              {/* Composition Breakdown */}
               <div className="chart-box">
                 <div className="chart-box-title">
-                  <span>Channel / Segment Share</span>
-                  <Layers size={16} color="var(--primary)" />
+                  <span>Revenue &amp; Channel Share</span>
+                  <ArrowUpRight size={14} style={{ color: 'var(--color-text-secondary)' }} aria-hidden="true" />
                 </div>
-                <div className="donut-list">
-                  {current.breakdown.map((item, idx) => (
-                    <div key={idx} className="donut-item">
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ul className="donut-list" aria-label="Channel share list">
+                  {currentData.breakdown.map((item, idx) => (
+                    <li key={idx} className="donut-item">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <span
                           style={{
-                            width: 10,
-                            height: 10,
+                            width: 8,
+                            height: 8,
                             borderRadius: '50%',
-                            background: item.color,
+                            background: idx === 0 ? 'var(--color-text-secondary)' : idx === 1 ? 'var(--color-text-tertiary)' : 'var(--color-text-muted)'
                           }}
+                          aria-hidden="true"
                         />
-                        <span style={{ color: 'var(--text-main)', fontWeight: 500 }}>
-                          {item.name}
-                        </span>
+                        <span style={{ color: 'var(--color-text-inverse)' }}>{item.name}</span>
                       </div>
-                      <span style={{ fontWeight: 700, color: item.color }}>{item.share}</span>
-                    </div>
+                      <strong style={{ color: 'var(--color-text-tertiary)' }}>{item.share}</strong>
+                    </li>
                   ))}
-                </div>
-
-                <div style={{ marginTop: 24, textAlign: 'center' }}>
-                  <a
-                    href="#contact"
-                    className="btn btn-primary"
-                    style={{ width: '100%', fontSize: '0.85rem', padding: '10px 16px' }}
-                  >
-                    <span>Request Custom BI Build</span>
-                    <ArrowUpRight size={15} />
-                  </a>
-                </div>
+                </ul>
               </div>
             </div>
           </div>

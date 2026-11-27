@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Network, Search, Filter, Mail, CheckCircle2, DollarSign, Send } from 'lucide-react';
+import { Network, Search, Filter, Mail, CheckCircle2, DollarSign, Send, ArrowRight } from 'lucide-react';
 import { servicesData, companyInfo } from '../data/siteContent';
 
 export const AffiliateExplorer = () => {
@@ -21,19 +21,19 @@ export const AffiliateExplorer = () => {
   });
 
   return (
-    <section id="affiliate" style={{ padding: '100px 0' }}>
+    <section id="affiliate" className="affiliate-section" aria-label="Affiliate Publisher Network">
       <div className="container">
         <div className="section-header">
           <div className="badge">
-            <Network size={14} />
+            <Network size={13} aria-hidden="true" />
             <span>High-Yield Publisher Ecosystem</span>
           </div>
           <h2>
-            DAMA <span className="gradient-text">Affiliate Campaign Network</span>
+            Publisher &amp; <span className="accent-text">Affiliate Campaign Network</span>
           </h2>
           <p>
-            Bridging top ad networks, performance agencies, media buyers, and creators with exclusive,
-            high-converting campaigns and transparent, guaranteed payouts.
+            Connecting performance agencies, media buyers, and creators with enterprise campaigns,
+            real-time attribution tracking, and verified payout structures.
           </p>
         </div>
 
@@ -42,16 +42,16 @@ export const AffiliateExplorer = () => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: 16,
-            marginBottom: 36
+            gap: 'var(--space-2)',
+            marginBottom: 'var(--space-4)'
           }}
         >
           {affiliateInfo.inventories.map((inv, idx) => (
             <div
               key={idx}
               style={{
-                padding: '16px 20px',
-                background: 'rgba(255, 255, 255, 0.02)',
+                padding: 'var(--space-2)',
+                background: 'var(--color-surface-raised)',
                 border: '1px solid var(--border-subtle)',
                 borderRadius: 'var(--radius-sm)',
                 display: 'flex',
@@ -64,11 +64,11 @@ export const AffiliateExplorer = () => {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  background: '#10b981',
-                  boxShadow: '0 0 8px #10b981'
+                  background: 'var(--color-text-secondary)',
                 }}
+                aria-hidden="true"
               />
-              <span style={{ fontSize: '0.92rem', fontWeight: 600 }}>{inv}</span>
+              <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-tertiary)' }}>{inv}</span>
             </div>
           ))}
         </div>
@@ -80,16 +80,16 @@ export const AffiliateExplorer = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: 16,
-            marginBottom: 20
+            gap: 'var(--space-2)',
+            marginBottom: 'var(--space-2)'
           }}
         >
-          {/* Search Input */}
-          <div style={{ position: 'relative', minWidth: 280 }}>
+          {/* Search Input with explicit Focus-Visible & Token padding */}
+          <div style={{ position: 'relative', minWidth: 280, flex: 1, maxWidth: 440 }}>
             <Search
-              size={17}
-              color="var(--text-subtle)"
-              style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}
+              size={15}
+              style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }}
+              aria-hidden="true"
             />
             <input
               type="text"
@@ -98,26 +98,20 @@ export const AffiliateExplorer = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="form-control"
               style={{ paddingLeft: 40, width: '100%' }}
+              aria-label="Filter affiliate offers"
             />
           </div>
 
           {/* Category Filter Pills */}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }} role="tablist" aria-label="Offer Category Filters">
             {categories.map((cat) => (
               <button
                 key={cat}
+                role="tab"
+                aria-selected={selectedCategory === cat}
                 onClick={() => setSelectedCategory(cat)}
-                style={{
-                  padding: '6px 14px',
-                  borderRadius: 'var(--radius-full)',
-                  border: selectedCategory === cat ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                  background: selectedCategory === cat ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255,255,255,0.03)',
-                  color: selectedCategory === cat ? '#ffffff' : 'var(--text-muted)',
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'var(--transition)'
-                }}
+                className={`btn ${selectedCategory === cat ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ padding: '6px 14px', fontSize: 'var(--font-size-xs)' }}
               >
                 {cat}
               </button>
@@ -125,99 +119,71 @@ export const AffiliateExplorer = () => {
           </div>
         </div>
 
-        {/* Affiliate Table */}
+        {/* Affiliate Table with Empty State Edge-Case Handling */}
         <div className="affiliate-table-container">
-          <table className="affiliate-table">
-            <thead>
-              <tr>
-                <th>Industry / Category</th>
-                <th>Campaign / Offer Details</th>
-                <th>Pricing Mode</th>
-                <th>Payout Rate</th>
-                <th>Approved Channels</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTiers.map((tier, idx) => (
-                <tr key={idx}>
-                  <td style={{ color: 'var(--text-main)', fontWeight: 600 }}>{tier.category}</td>
-                  <td style={{ color: 'var(--text-muted)' }}>{tier.offer}</td>
-                  <td>
-                    <span
-                      style={{
-                        fontSize: '0.78rem',
-                        padding: '3px 8px',
-                        background: 'rgba(99, 102, 241, 0.15)',
-                        color: '#818cf8',
-                        borderRadius: 4,
-                        fontWeight: 700
-                      }}
-                    >
-                      {tier.mode}
-                    </span>
-                  </td>
-                  <td>
-                    <span className="payout-badge">{tier.payout}</span>
-                  </td>
-                  <td style={{ color: 'var(--text-subtle)', fontSize: '0.85rem' }}>{tier.channel}</td>
-                  <td>
-                    <a
-                      href={`mailto:${companyInfo.affiliateEmail}?subject=Request access for ${tier.offer} (${tier.mode})`}
-                      style={{
-                        fontSize: '0.8rem',
-                        color: 'var(--primary)',
-                        textDecoration: 'none',
-                        fontWeight: 600,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4
-                      }}
-                    >
-                      <span>Get Tracking Link</span>
-                      <Send size={12} />
-                    </a>
-                  </td>
+          {filteredTiers.length === 0 ? (
+            <div className="empty-state">
+              <p>No active affiliate campaigns match your criteria &ldquo;{searchQuery}&rdquo;.</p>
+              <button
+                onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+                className="btn btn-secondary"
+                style={{ marginTop: 'var(--space-2)', fontSize: 'var(--font-size-xs)' }}
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            <table className="affiliate-table" aria-label="Affiliate Campaign Payouts">
+              <thead>
+                <tr>
+                  <th scope="col">Industry / Category</th>
+                  <th scope="col">Campaign / Offer Details</th>
+                  <th scope="col">Pricing Mode</th>
+                  <th scope="col">Payout Rate</th>
+                  <th scope="col">Approved Channels</th>
+                  <th scope="col">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Publisher Onboarding Box */}
-        <div
-          style={{
-            marginTop: 40,
-            padding: 32,
-            background: 'rgba(15, 23, 42, 0.7)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-md)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 24
-          }}
-        >
-          <div>
-            <span style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: 800, textTransform: 'uppercase' }}>
-              Publisher Onboarding
-            </span>
-            <h4 style={{ fontSize: '1.4rem', margin: '4px 0 8px' }}>
-              Are You an Agency, Media Buyer, or Creator?
-            </h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', margin: 0 }}>
-              Join DAMA Affiliate today. Get weekly payouts, dedicated campaign managers, and postback APIs.
-            </p>
-          </div>
-
-          <a
-            href={`mailto:${companyInfo.affiliateEmail}?subject=Become a Publisher - Dama Affiliate`}
-            className="btn btn-accent"
-          >
-            <Mail size={16} />
-            <span>Apply as Publisher ({companyInfo.affiliateEmail})</span>
-          </a>
+              </thead>
+              <tbody>
+                {filteredTiers.map((tier, idx) => (
+                  <tr key={idx}>
+                    <td style={{ color: 'var(--color-text-tertiary)', fontWeight: 500 }}>{tier.category}</td>
+                    <td>{tier.offer}</td>
+                    <td>
+                      <span
+                        style={{
+                          fontSize: 'var(--font-size-xs)',
+                          padding: '3px 8px',
+                          background: 'var(--color-surface-overlay)',
+                          border: '1px solid var(--border-medium)',
+                          color: 'var(--color-text-secondary)',
+                          borderRadius: 'var(--radius-xs)',
+                          fontWeight: 600
+                        }}
+                      >
+                        {tier.mode}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="payout-badge">{tier.payout}</span>
+                    </td>
+                    <td style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>{tier.channel}</td>
+                    <td>
+                      <a
+                        href={`mailto:${companyInfo.affiliateEmail}?subject=Application for ${encodeURIComponent(tier.offer)} (${tier.mode})`}
+                        className="btn btn-secondary"
+                        style={{ padding: '6px 12px', fontSize: 'var(--font-size-xs)' }}
+                        aria-label={`Apply for ${tier.offer}`}
+                      >
+                        <span>Apply</span>
+                        <ArrowRight size={13} aria-hidden="true" />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </section>

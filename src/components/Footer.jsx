@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Globe, ArrowUp, Shield } from 'lucide-react';
+import { Phone, Mail, MapPin, Globe, ArrowUp } from 'lucide-react';
 import { companyInfo } from '../data/siteContent';
 
 export const Footer = ({ onOpenPrivacy }) => {
@@ -8,94 +8,89 @@ export const Footer = ({ onOpenPrivacy }) => {
   };
 
   return (
-    <footer className="footer">
+    <footer className="footer" role="contentinfo" aria-label="Site Footer">
       <div className="container">
         <div className="footer-top">
-          {/* Col 1: Brand info */}
+          {/* Col 1: Brand Info & Identity */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <img
                 src={companyInfo.logo}
-                alt="Dama Digital Analytics"
-                style={{ height: 38, width: 'auto', borderRadius: 6 }}
+                alt="DAMA Digital Analytics"
+                style={{ height: 32, width: 'auto', borderRadius: 'var(--radius-xs)' }}
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
               />
               <div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', lineHeight: 1.1 }}>
+                <div style={{ fontSize: 'var(--font-size-md)', fontWeight: 500, color: 'var(--color-text-tertiary)', lineHeight: 1.1, textTransform: 'uppercase' }}>
                   DAMA DIGITAL
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.08em' }}>
+                <div style={{ fontSize: '10px', color: 'var(--color-text-secondary)', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                   ANALYTICS &bull; INDIA
                 </div>
               </div>
             </div>
 
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, maxWidth: 360, marginBottom: 20 }}>
-              {companyInfo.tagline}. We empower modern brands with data intelligence, predictive
-              dashboards, and high-ROI digital marketing funnels.
+            <p style={{ color: 'var(--color-text-inverse)', fontSize: 'var(--font-size-sm)', lineHeight: '22px', maxWidth: 360, marginBottom: 18 }}>
+              {companyInfo.tagline}. Precision data architectures, executive intelligence dashboards, and full-funnel digital execution.
             </p>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#10b981' }}>
-              <Globe size={15} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)' }}>
+              <Globe size={13} aria-hidden="true" />
               <span>Gulbarga &bull; Hyderabad &bull; Pune &bull; Bengaluru &bull; Worldwide</span>
             </div>
           </div>
 
-          {/* Col 2: Navigation */}
+          {/* Col 2: Navigation Directory (Links 18 to 24 of 29 Links) - List Component 6 */}
           <div>
-            <h4 style={{ fontSize: '1rem', color: '#ffffff', marginBottom: 18, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Navigation
+            <h4 style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+              Navigation Directory
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.9rem' }}>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>All Services</a></li>
-              <li><a href="#interactive-bi" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Interactive BI</a></li>
-              <li><a href="#about" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>About & Story</a></li>
-              <li><a href="#portfolio" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Client Work</a></li>
-              <li><a href="#affiliate" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Affiliate Network</a></li>
-              <li><a href="#blog" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>2026 Playbook</a></li>
-              <li><a href="#contact" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Get in Touch</a></li>
+            <ul className="footer-links-list">
+              <li><a href="#services">All Services</a></li>
+              <li><a href="#interactive-bi">Interactive BI</a></li>
+              <li><a href="#about">About &amp; Story</a></li>
+              <li><a href="#portfolio">Client Work</a></li>
+              <li><a href="#affiliate">Affiliate Network</a></li>
+              <li><a href="#blog">2026 Playbook</a></li>
+              <li><a href="#contact">Get in Touch</a></li>
             </ul>
           </div>
 
-          {/* Col 3: Core Practices */}
+          {/* Col 3: Core Practices (Links 25 to 27 of 29 Links) - List Component 7 */}
           <div>
-            <h4 style={{ fontSize: '1rem', color: '#ffffff', marginBottom: 18, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <h4 style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
               Core Practices
             </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.9rem' }}>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Power BI Dashboards</a></li>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Tableau Visual Analytics</a></li>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Predictive Data Modeling</a></li>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Full-Funnel Paid Ads</a></li>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>YouTube Channel SEO</a></li>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Influencer Discovery</a></li>
-              <li><a href="#services" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>E-Commerce Development</a></li>
+            <ul className="footer-links-list">
+              <li><a href="#services">Power BI Dashboards</a></li>
+              <li><a href="#services">Tableau Visual Analytics</a></li>
+              <li><a href="#services">Predictive Data Modeling</a></li>
             </ul>
           </div>
 
-          {/* Col 4: Contact & Office */}
+          {/* Col 4: Direct Inquiries (Links 28 & 29 of 29 Links) */}
           <div>
-            <h4 style={{ fontSize: '1rem', color: '#ffffff', marginBottom: 18, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <h4 style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
               Direct Reach
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, fontSize: '0.9rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 'var(--font-size-sm)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Phone size={16} color="var(--primary)" />
-                <a href={`tel:${companyInfo.phone}`} style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 600 }}>
+                <Phone size={14} style={{ color: 'var(--color-text-secondary)' }} aria-hidden="true" />
+                <a href={`tel:${companyInfo.phone}`} style={{ color: 'var(--color-text-tertiary)', textDecoration: 'none', fontWeight: 500 }}>
                   {companyInfo.phoneFormatted}
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Mail size={16} color="var(--primary)" />
-                <a href={`mailto:${companyInfo.email}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>
+                <Mail size={14} style={{ color: 'var(--color-text-secondary)' }} aria-hidden="true" />
+                <a href={`mailto:${companyInfo.email}`} style={{ color: 'var(--color-text-inverse)', textDecoration: 'none' }}>
                   {companyInfo.email}
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                <MapPin size={16} color="var(--primary)" style={{ flexShrink: 0, marginTop: 4 }} />
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5 }}>
+                <MapPin size={14} style={{ color: 'var(--color-text-secondary)', flexShrink: 0, marginTop: 4 }} aria-hidden="true" />
+                <span style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)', lineHeight: '18px' }}>
                   {companyInfo.address}
                 </span>
               </div>
@@ -115,11 +110,12 @@ export const Footer = ({ onOpenPrivacy }) => {
               style={{
                 background: 'transparent',
                 border: 'none',
-                color: 'var(--text-muted)',
+                color: 'var(--color-text-muted)',
                 cursor: 'pointer',
-                fontSize: '0.85rem',
+                fontSize: 'var(--font-size-xs)',
                 textDecoration: 'underline'
               }}
+              aria-label="Open Privacy Policy Document"
             >
               Privacy Policy
             </button>
@@ -127,10 +123,11 @@ export const Footer = ({ onOpenPrivacy }) => {
             <button
               onClick={scrollToTop}
               className="btn btn-secondary"
-              style={{ padding: '6px 14px', fontSize: '0.8rem' }}
-              title="Back to Top"
+              style={{ padding: '6px 14px', fontSize: 'var(--font-size-xs)' }}
+              title="Return to top of page"
+              aria-label="Return to top of page"
             >
-              <ArrowUp size={14} />
+              <ArrowUp size={13} aria-hidden="true" />
               <span>Top</span>
             </button>
           </div>

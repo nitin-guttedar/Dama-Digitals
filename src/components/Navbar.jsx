@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, ArrowUpRight, BarChart2, Shield } from 'lucide-react';
+import { Menu, X, Phone, ArrowUpRight } from 'lucide-react';
 import { companyInfo } from '../data/siteContent';
 
-export const Navbar = ({ onOpenPrivacy, onOpenContact }) => {
+export const Navbar = ({ onOpenPrivacy }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -10,9 +10,20 @@ export const Navbar = ({ onOpenPrivacy, onOpenContact }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile drawer on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
 
   const navItems = [
     { label: 'Services', href: '#services' },
@@ -26,27 +37,26 @@ export const Navbar = ({ onOpenPrivacy, onOpenContact }) => {
 
   return (
     <>
-      <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+      <header className={`navbar ${isScrolled ? 'scrolled' : ''}`} role="banner">
         <div className="container nav-container">
           {/* Brand Logo */}
-          <a href="#" className="nav-brand">
+          <a href="#" className="nav-brand" aria-label="DAMA Digital Analytics - Home">
             <img
               src={companyInfo.logo}
               alt="DAMA Digital Analytics"
               className="brand-logo-img"
               onError={(e) => {
-                // Fallback gracefully if external Wix image URL is blocked
                 e.target.style.display = 'none';
               }}
             />
             <div className="brand-text-block">
               <span className="brand-title">DAMA DIGITAL</span>
-              <span className="brand-subtitle">ANALYTICS &bull; INDIA</span>
+              <span className="brand-subtitle">Analytics &bull; India</span>
             </div>
           </a>
 
-          {/* Desktop Nav Links */}
-          <nav>
+          {/* Desktop Nav Links (Part of Navigation System 1 & 7 Links) */}
+          <nav aria-label="Primary Navigation">
             <ul className="nav-links">
               {navItems.map((item) => (
                 <li key={item.label}>
@@ -63,84 +73,89 @@ export const Navbar = ({ onOpenPrivacy, onOpenContact }) => {
             <a
               href={`tel:${companyInfo.phone}`}
               className="btn btn-secondary"
-              style={{ padding: '8px 16px', fontSize: '0.85rem' }}
-              title="Direct Call"
+              title="Direct Telephone Inquiries"
+              aria-label={`Call us at ${companyInfo.phoneFormatted}`}
             >
-              <Phone size={15} color="#38bdf8" />
+              <Phone size={14} aria-hidden="true" />
               <span>{companyInfo.phone}</span>
             </a>
 
             <a
               href="#contact"
               className="btn btn-primary"
-              style={{ padding: '9px 18px', fontSize: '0.88rem' }}
+              aria-label="Request a Free Digital & BI Audit"
             >
               <span>Get Free Audit</span>
-              <ArrowUpRight size={16} />
+              <ArrowUpRight size={15} aria-hidden="true" />
             </a>
 
-            {/* Mobile Hamburger Button */}
+            {/* Mobile Hamburger Toggle Button */}
             <button
               className="mobile-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle navigation menu"
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav-drawer"
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileMenuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (Part of Navigation System 2) */}
       {mobileMenuOpen && (
-        <div className="drawer-backdrop" onClick={() => setMobileMenuOpen(false)} />
+        <div
+          className="drawer-backdrop"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
       )}
-      <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
+      <div
+        id="mobile-nav-drawer"
+        className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}
+        role="dialog"
+        aria-label="Mobile Navigation Menu"
+        aria-modal={mobileMenuOpen}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
           <div className="brand-text-block">
             <span className="brand-title">DAMA DIGITAL</span>
-            <span className="brand-subtitle">Analytics & Marketing</span>
+            <span className="brand-subtitle">Analytics &amp; Marketing</span>
           </div>
           <button
             onClick={() => setMobileMenuOpen(false)}
-            style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer' }}
+            aria-label="Close navigation menu"
+            className="mobile-toggle"
           >
-            <X size={24} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 
-        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 18 }}>
-          {navItems.map((item) => (
-            <li key={item.label}>
-              <a
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  color: '#e2e8f0',
-                  textDecoration: 'none',
-                  fontSize: '1.05rem',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '8px 0',
-                  borderBottom: '1px solid rgba(255,255,255,0.05)'
-                }}
-              >
-                <span>{item.label}</span>
-                <ArrowUpRight size={16} color="#38bdf8" />
-              </a>
-            </li>
-          ))}
-        </ul>
+        <nav aria-label="Mobile Navigation Links">
+          <ul className="mobile-nav-list">
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mobile-nav-link"
+                >
+                  <span>{item.label}</span>
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
           <a
             href={`tel:${companyInfo.phone}`}
             className="btn btn-secondary"
             style={{ width: '100%', justifyContent: 'center' }}
           >
-            <Phone size={16} color="#38bdf8" />
+            <Phone size={14} aria-hidden="true" />
             <span>Call: {companyInfo.phoneFormatted}</span>
           </a>
           <a

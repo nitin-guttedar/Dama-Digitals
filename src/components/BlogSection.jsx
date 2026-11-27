@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
-import { BookOpen, Calendar, Clock, User, ArrowRight, X, Sparkles, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Calendar, Clock, ArrowRight, X, Sparkles } from 'lucide-react';
 import { blogPost } from '../data/siteContent';
 
 export const BlogSection = () => {
   const [isReaderOpen, setIsReaderOpen] = useState(false);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isReaderOpen) {
+        setIsReaderOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isReaderOpen]);
+
   return (
-    <section id="blog" style={{ padding: '100px 0', background: 'rgba(8, 12, 22, 0.6)' }}>
+    <section id="blog" className="blog-section" style={{ padding: 'var(--space-7) 0', background: 'var(--color-surface-base)', borderTop: '1px solid var(--border-subtle)' }} aria-label="Thought Leadership & Insights">
       <div className="container">
         <div className="section-header">
           <div className="badge">
-            <Sparkles size={14} />
+            <Sparkles size={13} aria-hidden="true" />
             <span>Strategic Intelligence</span>
           </div>
           <h2>
-            Featured Thought Leadership & <span className="gradient-text">2026 Insights</span>
+            Featured Thought Leadership &amp; <span className="accent-text">2026 Insights</span>
           </h2>
           <p>
-            Stay ahead of consumer behavior shifts, AI-powered search algorithms, and full-funnel marketing strategies.
+            Stay ahead of algorithmic shifts, predictive customer telemetry, and unified performance funnels.
           </p>
         </div>
 
@@ -25,38 +35,39 @@ export const BlogSection = () => {
         <div
           className="glass-card"
           style={{
-            maxWidth: 960,
+            maxWidth: 1000,
             margin: '0 auto',
-            padding: '40px',
-            border: '1px solid rgba(56, 189, 248, 0.25)'
+            padding: 'var(--space-5)',
+            border: '1px solid var(--border-medium)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 14, flexWrap: 'wrap' }}>
             <span
               style={{
-                fontSize: '0.78rem',
-                fontWeight: 800,
-                color: 'var(--primary)',
-                background: 'rgba(56, 189, 248, 0.12)',
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 600,
+                color: 'var(--color-text-secondary)',
+                background: 'var(--color-surface-base)',
+                border: '1px solid var(--border-medium)',
                 padding: '4px 12px',
                 borderRadius: 'var(--radius-full)'
               }}
             >
               {blogPost.category}
             </span>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-subtle)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Clock size={14} /> {blogPost.readTime}
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Clock size={13} aria-hidden="true" /> {blogPost.readTime}
             </span>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-subtle)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Calendar size={14} /> {blogPost.date}
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Calendar size={13} aria-hidden="true" /> {blogPost.date}
             </span>
           </div>
 
-          <h3 style={{ fontSize: '2.1rem', lineHeight: 1.25, marginBottom: 16 }}>
+          <h3 style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: 1.2, marginBottom: 16, fontWeight: 400 }}>
             {blogPost.title}
           </h3>
 
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: 24 }}>
+          <p style={{ color: 'var(--color-text-inverse)', fontSize: 'var(--font-size-md)', lineHeight: '28px', marginBottom: 'var(--space-3)' }}>
             {blogPost.excerpt}
           </p>
 
@@ -65,145 +76,121 @@ export const BlogSection = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingTop: 24,
+              paddingTop: 'var(--space-3)',
               borderTop: '1px solid var(--border-subtle)',
               flexWrap: 'wrap',
               gap: 16
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div
                 style={{
                   width: 36,
                   height: 36,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #38bdf8 0%, #6366f1 100%)',
+                  background: 'var(--color-surface-overlay)',
+                  border: '1px solid var(--border-medium)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontWeight: 800,
-                  fontSize: '0.9rem'
+                  fontWeight: 600,
+                  fontSize: 'var(--font-size-sm)',
+                  color: 'var(--color-text-secondary)'
                 }}
+                aria-hidden="true"
               >
                 D
               </div>
               <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>{blogPost.author}</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>Dama Digital Analytics</div>
+                <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: 'var(--color-text-tertiary)' }}>{blogPost.author}</div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>DAMA Digital Analytics</div>
               </div>
             </div>
 
             <button
               onClick={() => setIsReaderOpen(true)}
               className="btn btn-primary"
-              style={{ padding: '10px 22px' }}
+              aria-haspopup="dialog"
+              aria-expanded={isReaderOpen}
             >
               <span>Read Full 2026 Playbook</span>
-              <ArrowRight size={16} />
+              <ArrowRight size={15} aria-hidden="true" />
             </button>
           </div>
         </div>
 
-        {/* Full Article Reader Modal */}
+        {/* Full Article Reader Modal Dialog */}
         {isReaderOpen && (
-          <div className="blog-modal" onClick={() => setIsReaderOpen(false)}>
+          <div
+            className="blog-modal"
+            onClick={() => setIsReaderOpen(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={blogPost.title}
+          >
             <div className="blog-modal-content" onClick={(e) => e.stopPropagation()}>
               <button
                 className="close-modal-btn"
                 onClick={() => setIsReaderOpen(false)}
-                aria-label="Close article"
+                aria-label="Close article modal"
               >
-                <X size={20} />
+                <X size={18} aria-hidden="true" />
               </button>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                 <span
                   style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 800,
-                    color: 'var(--primary)',
-                    background: 'rgba(56, 189, 248, 0.12)',
+                    fontSize: 'var(--font-size-xs)',
+                    fontWeight: 600,
+                    color: 'var(--color-text-secondary)',
+                    background: 'var(--color-surface-base)',
+                    border: '1px solid var(--border-medium)',
                     padding: '4px 10px',
                     borderRadius: 'var(--radius-full)'
                   }}
                 >
                   {blogPost.category}
                 </span>
-                <span style={{ fontSize: '0.82rem', color: 'var(--text-subtle)' }}>{blogPost.date} &bull; {blogPost.readTime}</span>
+                <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                  {blogPost.date} &bull; {blogPost.readTime}
+                </span>
               </div>
 
-              <h2 style={{ fontSize: '2.2rem', marginBottom: 16 }}>{blogPost.title}</h2>
-              <p style={{ fontSize: '1.1rem', color: '#38bdf8', lineHeight: 1.7, marginBottom: 28 }}>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: 16, fontWeight: 400 }}>{blogPost.title}</h2>
+              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', lineHeight: '28px', marginBottom: 'var(--space-4)' }}>
                 {blogPost.intro}
               </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                 {blogPost.sections.map((sec, idx) => (
                   <div key={idx}>
-                    <h3 style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: 12 }}>
+                    <h3 style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-tertiary)', marginBottom: 10, fontWeight: 400 }}>
                       {sec.title}
                     </h3>
 
                     {sec.content && (
-                      <p style={{ color: 'var(--text-muted)', lineHeight: 1.7, fontSize: '1rem', margin: 0 }}>
+                      <p style={{ color: 'var(--color-text-inverse)', lineHeight: 'var(--font-line-height-base)', fontSize: 'var(--font-size-base)', margin: 0 }}>
                         {sec.content}
                       </p>
                     )}
 
-                    {sec.list && (
-                      <div style={{ display: 'grid', gap: 12, marginTop: 12 }}>
-                        {sec.list.map((item, i) => (
-                          <div
-                            key={i}
-                            style={{
-                              padding: '12px 16px',
-                              background: 'rgba(255, 255, 255, 0.03)',
-                              borderRadius: 'var(--radius-sm)',
-                              borderLeft: '3px solid var(--primary)'
-                            }}
-                          >
-                            <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: 2 }}>
-                              {item.name}
-                            </div>
-                            <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                              {item.detail}
-                            </div>
-                          </div>
+                    {sec.points && (
+                      <ul style={{ listStyle: 'disc', paddingLeft: 24, marginTop: 12, color: 'var(--color-text-inverse)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        {sec.points.map((pt, pIdx) => (
+                          <li key={pIdx} style={{ fontSize: 'var(--font-size-sm)', lineHeight: '24px' }}>
+                            {pt}
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     )}
                   </div>
                 ))}
               </div>
 
-              <div
-                style={{
-                  marginTop: 40,
-                  padding: 24,
-                  background: 'rgba(56, 189, 248, 0.08)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid rgba(56, 189, 248, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: 16
-                }}
-              >
-                <div>
-                  <h4 style={{ fontSize: '1.15rem', margin: 0 }}>Ready to put the 2026 playbook to work?</h4>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', margin: '4px 0 0' }}>
-                    Contact our growth specialists to design a tailor-made roadmap.
-                  </p>
-                </div>
-                <a
-                  href="#contact"
-                  onClick={() => setIsReaderOpen(false)}
-                  className="btn btn-primary"
-                  style={{ padding: '9px 18px', fontSize: '0.88rem' }}
-                >
-                  <span>Schedule Consultation</span>
-                </a>
+              <div style={{ marginTop: 'var(--space-5)', textAlign: 'right' }}>
+                <button onClick={() => setIsReaderOpen(false)} className="btn btn-secondary">
+                  Close Article
+                </button>
               </div>
             </div>
           </div>

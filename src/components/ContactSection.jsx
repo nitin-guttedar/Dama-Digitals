@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Send, CheckCircle2, MessageSquare, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { companyInfo } from '../data/siteContent';
 
@@ -14,82 +14,95 @@ export const ContactSection = () => {
     message: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errorMessage) setErrorMessage('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.firstName) return;
-
-    // Trigger celebratory confetti effect
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    } catch (err) {
-      // Ignore if confetti not supported
+    if (!formData.email || !formData.firstName) {
+      setErrorMessage('Please complete all required fields.');
+      return;
     }
 
-    setSubmitted(true);
+    setIsLoading(true);
+
+    // Simulate async submission with token 500ms duration
+    setTimeout(() => {
+      setIsLoading(false);
+      setSubmitted(true);
+
+      try {
+        confetti({
+          particleCount: 60,
+          spread: 60,
+          origin: { y: 0.6 }
+        });
+      } catch (err) {
+        // Fallback gracefully
+      }
+    }, 600);
   };
 
   return (
-    <section id="contact" className="contact-section">
+    <section id="contact" className="contact-section" aria-label="Contact and Proposal Inquiries">
       <div className="container">
         <div className="section-header">
           <div className="badge">
-            <MessageSquare size={14} />
+            <MessageSquare size={13} aria-hidden="true" />
             <span>Connect Directly</span>
           </div>
           <h2>
-            Let&rsquo;s Build Your <span className="gradient-text">Growth Strategy</span>
+            Let&rsquo;s Build Your <span className="accent-text">Growth Architecture</span>
           </h2>
           <p>
-            Whether you have an upcoming project, need a comprehensive BI audit, or want to explore our affiliate
-            network, our leadership team is ready to assist.
+            Whether you have an upcoming enterprise initiative, require an independent BI audit,
+            or wish to evaluate our affiliate network, our senior partners are ready to assist.
           </p>
         </div>
 
         <div className="contact-layout">
           {/* Left Column: Direct Contact & Office Hubs */}
           <div className="contact-info-panel">
-            {/* Phone Card */}
+            {/* Phone Card (Link 16 of 29 Links) */}
             <div className="contact-info-card">
               <div className="contact-icon-wrapper">
-                <Phone size={22} />
+                <Phone size={18} aria-hidden="true" />
               </div>
               <div>
-                <h4 style={{ fontSize: '1.05rem', margin: '0 0 4px' }}>Direct Phone</h4>
-                <p style={{ color: 'var(--text-subtle)', fontSize: '0.85rem', margin: '0 0 6px' }}>
+                <h3 style={{ fontSize: 'var(--font-size-sm)', margin: '0 0 4px', fontWeight: 500 }}>Direct Telephone</h3>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)', margin: '0 0 6px' }}>
                   Speak directly with our senior consultant
                 </p>
                 <a
                   href={`tel:${companyInfo.phone}`}
-                  style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem' }}
+                  style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontWeight: 600, fontSize: 'var(--font-size-md)' }}
+                  aria-label={`Call us directly at ${companyInfo.phoneFormatted}`}
                 >
                   {companyInfo.phoneFormatted}
                 </a>
               </div>
             </div>
 
-            {/* Email Card */}
+            {/* Email Card (Link 17 of 29 Links) */}
             <div className="contact-info-card">
               <div className="contact-icon-wrapper">
-                <Mail size={22} />
+                <Mail size={18} aria-hidden="true" />
               </div>
               <div>
-                <h4 style={{ fontSize: '1.05rem', margin: '0 0 4px' }}>Email Inquiries</h4>
-                <p style={{ color: 'var(--text-subtle)', fontSize: '0.85rem', margin: '0 0 6px' }}>
-                  Average response time within 2 hours
+                <h3 style={{ fontSize: 'var(--font-size-sm)', margin: '0 0 4px', fontWeight: 500 }}>Email Inquiries</h3>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)', margin: '0 0 6px' }}>
+                  Average response turnaround within 2 hours
                 </p>
                 <a
                   href={`mailto:${companyInfo.email}`}
-                  style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 700, fontSize: '1.05rem' }}
+                  style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontWeight: 600, fontSize: 'var(--font-size-md)' }}
+                  aria-label={`Email us at ${companyInfo.email}`}
                 >
                   {companyInfo.email}
                 </a>
@@ -99,11 +112,11 @@ export const ContactSection = () => {
             {/* Address Card */}
             <div className="contact-info-card">
               <div className="contact-icon-wrapper">
-                <MapPin size={22} />
+                <MapPin size={18} aria-hidden="true" />
               </div>
               <div>
-                <h4 style={{ fontSize: '1.05rem', margin: '0 0 4px' }}>Registered Office</h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5, margin: 0 }}>
+                <h3 style={{ fontSize: 'var(--font-size-sm)', margin: '0 0 4px', fontWeight: 500 }}>Registered Operations</h3>
+                <p style={{ color: 'var(--color-text-inverse)', fontSize: 'var(--font-size-xs)', lineHeight: '20px', margin: 0 }}>
                   {companyInfo.address}
                 </p>
               </div>
@@ -112,69 +125,91 @@ export const ContactSection = () => {
             {/* Regional Hubs Box */}
             <div
               style={{
-                padding: 24,
-                background: 'rgba(14, 21, 37, 0.6)',
+                padding: 'var(--space-3)',
+                background: 'var(--color-surface-raised)',
                 border: '1px solid var(--border-subtle)',
                 borderRadius: 'var(--radius-sm)'
               }}
             >
-              <h4 style={{ fontSize: '1rem', color: '#10b981', marginBottom: 12 }}>
-                Regional Hubs &bull; Serving Worldwide
+              <h4 style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Operational Presence &bull; Worldwide Delivery
               </h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 {companyInfo.locations.map((loc, idx) => (
-                  <div key={idx} style={{ fontSize: '0.88rem' }}>
-                    <div style={{ fontWeight: 700, color: '#ffffff' }}>{loc.city}</div>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>{loc.label}</div>
+                  <div key={idx} style={{ fontSize: 'var(--font-size-xs)' }}>
+                    <div style={{ fontWeight: 600, color: 'var(--color-text-tertiary)' }}>{loc.city}</div>
+                    <div style={{ color: 'var(--color-text-muted)' }}>{loc.label}</div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right Column: Interactive Form */}
+          {/* Right Column: Interactive Form (Defined 7 States) */}
           <div className="contact-form">
             {submitted ? (
-              <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+              <div style={{ textAlign: 'center', padding: 'var(--space-5) var(--space-2)' }} role="status">
                 <div
                   style={{
-                    width: 64,
-                    height: 64,
+                    width: 56,
+                    height: 56,
                     borderRadius: '50%',
-                    background: 'rgba(16, 185, 129, 0.15)',
-                    color: '#10b981',
+                    background: 'var(--color-surface-overlay)',
+                    border: '1px solid var(--border-medium)',
+                    color: 'var(--color-text-secondary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     margin: '0 auto 20px'
                   }}
                 >
-                  <CheckCircle2 size={36} />
+                  <CheckCircle2 size={30} aria-hidden="true" />
                 </div>
-                <h3 style={{ fontSize: '1.8rem', marginBottom: 12 }}>Thank You!</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6, maxWidth: 440, margin: '0 auto 24px' }}>
-                  Your inquiry has been received. A senior strategy lead from Dama Digital Analytics will review your
-                  requirements and reach out within 2 hours.
+                <h3 style={{ fontSize: 'var(--font-size-lg)', marginBottom: 12, fontWeight: 400 }}>Inquiry Transmitted</h3>
+                <p style={{ color: 'var(--color-text-inverse)', fontSize: 'var(--font-size-sm)', lineHeight: '24px', maxWidth: 440, margin: '0 auto 24px' }}>
+                  Your technical brief has been received. A senior strategy lead from DAMA Digital Analytics
+                  will analyze your telemetry targets and contact you within 2 hours.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
                   className="btn btn-secondary"
-                  style={{ fontSize: '0.88rem' }}
                 >
-                  Submit Another Inquiry
+                  Submit Another Brief
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit}>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: 6 }}>Request a Consultation</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 24 }}>
-                  Fill in your details below and we will prepare a tailored audit & action plan.
+              <form onSubmit={handleSubmit} noValidate>
+                <h3 style={{ fontSize: 'var(--font-size-lg)', marginBottom: 6, fontWeight: 400 }}>Request Technical Consultation</h3>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)', marginBottom: 'var(--space-3)' }}>
+                  Provide your organization parameters below to initiate a structured evaluation roadmap.
                 </p>
+
+                {errorMessage && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '10px 14px',
+                      background: 'var(--color-state-error-bg)',
+                      border: '1px solid var(--color-state-error)',
+                      borderRadius: 'var(--radius-xs)',
+                      color: 'var(--color-state-error)',
+                      fontSize: 'var(--font-size-xs)',
+                      marginBottom: 'var(--space-2)'
+                    }}
+                    role="alert"
+                  >
+                    <AlertCircle size={14} aria-hidden="true" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
 
                 <div className="form-row">
                   <div className="form-group">
-                    <label>First Name *</label>
+                    <label htmlFor="input-firstName">First Name *</label>
                     <input
+                      id="input-firstName"
                       type="text"
                       name="firstName"
                       required
@@ -182,11 +217,13 @@ export const ContactSection = () => {
                       value={formData.firstName}
                       onChange={handleChange}
                       className="form-control"
+                      aria-required="true"
                     />
                   </div>
                   <div className="form-group">
-                    <label>Last Name</label>
+                    <label htmlFor="input-lastName">Last Name</label>
                     <input
+                      id="input-lastName"
                       type="text"
                       name="lastName"
                       placeholder="e.g. Doe"
@@ -197,22 +234,25 @@ export const ContactSection = () => {
                   </div>
                 </div>
 
-                <div className="form-row" style={{ marginTop: 14 }}>
+                <div className="form-row" style={{ marginTop: 'var(--space-1)' }}>
                   <div className="form-group">
-                    <label>Corporate Email *</label>
+                    <label htmlFor="input-email">Corporate Email *</label>
                     <input
+                      id="input-email"
                       type="email"
                       name="email"
                       required
-                      placeholder="john@company.com"
+                      placeholder="john@organization.com"
                       value={formData.email}
                       onChange={handleChange}
                       className="form-control"
+                      aria-required="true"
                     />
                   </div>
                   <div className="form-group">
-                    <label>Phone Number</label>
+                    <label htmlFor="input-phone">Phone Number</label>
                     <input
+                      id="input-phone"
                       type="tel"
                       name="phone"
                       placeholder="+91 98765 43210"
@@ -223,10 +263,11 @@ export const ContactSection = () => {
                   </div>
                 </div>
 
-                <div className="form-row" style={{ marginTop: 14 }}>
+                <div className="form-row" style={{ marginTop: 'var(--space-1)' }}>
                   <div className="form-group">
-                    <label>Company Name</label>
+                    <label htmlFor="input-company">Organization Name</label>
                     <input
+                      id="input-company"
                       type="text"
                       name="company"
                       placeholder="Your organization"
@@ -236,8 +277,9 @@ export const ContactSection = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label>Primary Interest</label>
+                    <label htmlFor="input-serviceInterest">Core Practice Area</label>
                     <select
+                      id="input-serviceInterest"
                       name="serviceInterest"
                       value={formData.serviceInterest}
                       onChange={handleChange}
@@ -256,11 +298,12 @@ export const ContactSection = () => {
                   </div>
                 </div>
 
-                <div className="form-group" style={{ marginTop: 14 }}>
-                  <label>Message / Project Objectives</label>
+                <div className="form-group" style={{ marginTop: 'var(--space-1)' }}>
+                  <label htmlFor="input-message">Project Scope &amp; Target KPIs</label>
                   <textarea
+                    id="input-message"
                     name="message"
-                    placeholder="Tell us about your brand, current bottlenecks, target KPIs, or timeline..."
+                    placeholder="Describe your current data pipelines, marketing challenges, or timeline requirements..."
                     value={formData.message}
                     onChange={handleChange}
                     className="form-control"
@@ -269,11 +312,12 @@ export const ContactSection = () => {
 
                 <button
                   type="submit"
-                  className="btn btn-primary"
-                  style={{ width: '100%', marginTop: 24, padding: '14px 20px', fontSize: '1rem' }}
+                  disabled={isLoading}
+                  className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+                  style={{ width: '100%', marginTop: 'var(--space-3)' }}
                 >
-                  <Send size={16} />
-                  <span>Send Proposal Request</span>
+                  <Send size={15} aria-hidden="true" />
+                  <span>{isLoading ? 'Transmitting...' : 'Send Consultation Request'}</span>
                 </button>
               </form>
             )}
